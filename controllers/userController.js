@@ -1,34 +1,18 @@
-const db = require("../models/index");
+const data = require("../models");
 const bcrypt = require("bcrypt");
+const db = data.data;
 
 const userController = {
   createUser: async (req, res) => {
     try {
-      const username = await db.User.findOne({
-        where: {
-          username: req.body.username,
-        },
-      });
-      if (username) {
-        return res.json("User already exists");
-      }
-      const email = await db.User.findOne({
-        where: {
-          email: req.body.email,
-        },
-      });
-      if (email) {
-        return res.json("Email already exists");
-      }
       const salt = await bcrypt.genSalt(10);
       const hased = await bcrypt.hash(req.body.password, salt);
       const newUser = await db.User.create({
         username: req.body.username,
         password: hased,
         email: req.body.email,
-        admin: false,
+        roleID: req.body.roleID,
       });
-
       await newUser.save();
       res.status(200).json("Create Account Success");
     } catch (error) {
@@ -69,7 +53,18 @@ const userController = {
   getOneUser: async (req, res) => {
     let id = req.params.id;
     try {
-      const user = await db.User.findByPk(id);
+      const user = await db.User.findByPk(id, {
+        attributes: {
+          exclude: ["password"],
+        },
+        include: [
+          {
+            model: db.AllCode,
+            as: "roleData",
+            attributes: ["value"],
+          },
+        ],
+      });
       if (!user) {
         return res.status(404).json("User does not exist");
       }
@@ -81,7 +76,18 @@ const userController = {
 
   getAllUser: async (req, res) => {
     try {
-      const user = await db.User.findAll();
+      const user = await db.User.findAll({
+        attributes: {
+          exclude: ["password"],
+        },
+        include: [
+          {
+            model: db.AllCode,
+            as: "roleData",
+            attributes: ["value"],
+          },
+        ],
+      });
       if (!user) {
         return res.status(404).json("User does not exist");
       }

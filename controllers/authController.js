@@ -1,16 +1,16 @@
 const bcrypt = require("bcrypt");
-const db = require("../models/index");
 const jwt = require("jsonwebtoken");
+const data = require("../models");
+const db = data.data;
 
 const authController = {
   generateToken: (user) => {
     return jwt.sign(
       {
-        id: user.id,
-        admin: user.admin,
+        id: user.dataValues.id,
       },
       process.env.KEY_JWT,
-      { expiresIn: "30s" }
+      { expiresIn: "4h" }
     );
   },
 
@@ -28,9 +28,12 @@ const authController = {
       }
       if (user && valiPassword) {
         const accsessToken = authController.generateToken(user);
+
         res.status(200).json({ user, accsessToken });
       }
-    } catch (error) {}
+    } catch (error) {
+      res.status(500).json(error);
+    }
   },
 };
 
