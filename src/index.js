@@ -4,10 +4,10 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/connectDB");
 const db = require("./models");
 
-const authRoute = require("./routes/auth");
-const userRoute = require("./routes/user");
-const productRoute = require("./routes/product");
-const allcodeRoute = require("./routes/allcode");
+const authRoute = require("./routes/authRoute");
+const userRoute = require("./routes/userRoute");
+const productRoute = require("./routes/productRoute");
+const allcodeRoute = require("./routes/allcodeRoute");
 
 dotenv.config();
 

@@ -23,6 +23,7 @@ module.exports = (sequelize, Sequelize) => {
     roleID: {
       required: true,
       type: Sequelize.STRING,
+      defaultValue: "R2",
     },
   });
 

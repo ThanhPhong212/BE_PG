@@ -35,6 +35,21 @@ const authController = {
       res.status(500).json(error);
     }
   },
+  register: async (req, res) => {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hased = await bcrypt.hash(req.body.password, salt);
+      const newUser = await db.User.create({
+        username: req.body.username,
+        password: hased,
+        email: req.body.email,
+      });
+      await newUser.save();
+      res.status(200).json("Create Account Success");
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
 };
 
 module.exports = authController;
