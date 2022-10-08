@@ -2,8 +2,13 @@ const { Sequelize } = require("sequelize");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const sequelize = new Sequelize(process.env.DB_URI, { logging: false, timezone: "+07:00" });
+const sequelize = new Sequelize(process.env.DB_URI, {
+  logging: false,
+  timezone: "+07:00",
+});
 let connectDB = async () => {
+
+
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
