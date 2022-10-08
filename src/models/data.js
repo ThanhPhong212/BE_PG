@@ -82,10 +82,10 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  User.belongsTo(AllCode, {
-    foreignKey: "roleId2",
-    // as: "roleData",
-  });
+  // User.belongsTo(AllCode, {
+  //   foreignKey: "roleId2",
+  //   // as: "roleData",
+  // });
 
   // AllCode.hasOne(User, {
   //   foreignKey: "roleId2",
