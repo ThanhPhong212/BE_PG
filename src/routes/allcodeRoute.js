@@ -8,7 +8,7 @@ let router = express.Router();
 
 router.post(
   "/create_code",
-  authorize(["R1"]),
+  // authorize(["R1"]),
   validate(allcodeValidation.allcode),
   allCodeController.createAllCode
 );

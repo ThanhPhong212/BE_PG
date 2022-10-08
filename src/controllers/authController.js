@@ -17,7 +17,9 @@ const authController = {
   login: async (req, res) => {
     try {
       const user = await db.User.findOne({
-        where: { username: req.body.username },
+        where: {
+          username: req.body.username,
+        },
       });
       if (!user) {
         res.status(404).json("User not found");
@@ -26,6 +28,7 @@ const authController = {
       if (!valiPassword) {
         res.status(404).json("Wrong password!");
       }
+
       if (user && valiPassword) {
         const accsessToken = authController.generateToken(user);
 
@@ -35,6 +38,7 @@ const authController = {
       res.status(500).json(error);
     }
   },
+
   register: async (req, res) => {
     try {
       const salt = await bcrypt.genSalt(10);

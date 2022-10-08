@@ -7,6 +7,13 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
 
+    fullname: {
+      type: Sequelize.STRING,
+      required: true,
+      allowNull: false,
+      defaultValue: "",
+    },
+
     email: {
       type: Sequelize.STRING,
       unique: true,
@@ -18,12 +25,6 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       required: true,
       allowNull: false,
-    },
-
-    roleID: {
-      required: true,
-      type: Sequelize.STRING,
-      defaultValue: "R2",
     },
   });
 
@@ -58,6 +59,7 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
   });
+
   const AllCode = sequelize.define("allCode", {
     type: {
       type: Sequelize.STRING,
@@ -74,33 +76,32 @@ module.exports = (sequelize, Sequelize) => {
 
     value: {
       type: Sequelize.STRING,
-      required: false,
       unique: true,
+      required: false,
       allowNull: false,
     },
   });
 
   User.belongsTo(AllCode, {
-    foreignKey: "roleID",
-    targetKey: "key",
-    as: "roleData",
+    foreignKey: "roleId2",
+    // as: "roleData",
   });
 
-  AllCode.hasMany(User, {
-    foreignKey: "roleID",
-    as: "roleData",
-  });
+  // AllCode.hasOne(User, {
+  //   foreignKey: "roleId2",
+  //   // as: "roleData",
+  // });
+  //
+  // Product.belongsTo(AllCode, {
+  //   foreignKey: "categoryID",
+  //   targetKey: "key",
+  //   as: "categoryData",
+  // });
 
-  Product.belongsTo(AllCode, {
-    foreignKey: "categoryID",
-    targetKey: "key",
-    as: "categoryData",
-  });
-
-  AllCode.hasMany(Product, {
-    foreignKey: "categoryID",
-    as: "categoryData",
-  });
+  // AllCode.hasMany(Product, {
+  //   foreignKey: "categoryID",
+  //   as: "categoryData",
+  // });
 
   return { User, Product, AllCode };
 };

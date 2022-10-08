@@ -83,11 +83,15 @@ const userController = {
         include: [
           {
             model: db.AllCode,
-            as: "roleData",
+            // as: "roleData",
             attributes: ["value"],
           },
         ],
+        raw: true,
       });
+      // const newData = user.map((item) =>
+      //   console.log(item.dataValues)((item.dataValues.role_name = roleData.value))
+      // );
       if (!user) {
         return res.status(404).json("User does not exist");
       }

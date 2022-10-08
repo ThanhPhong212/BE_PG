@@ -22,7 +22,8 @@ app.use("/product", productRoute);
 app.use("/allcode", allcodeRoute);
 
 connectDB();
-// db.sequelize.sync({ alter: true });
+
+db.sequelize.sync({ alter: true });
 // db.sequelize.sync({ force: true });
 
 let port = process.env.PORT || 6969;
