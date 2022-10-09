@@ -5,11 +5,8 @@ const connectDB = require("./config/connectDB");
 const db = require("./models");
 
 const authRoute = require("./routes/authRoute");
-
 const userRoute = require("./routes/userRoute");
-
 const productRoute = require("./routes/productRoute");
-
 const allcodeRoute = require("./routes/allcodeRoute");
 
 dotenv.config();
