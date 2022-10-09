@@ -27,7 +27,7 @@ app.use("/allcode", allcodeRoute);
 connectDB();
 
 // db.sequelize.sync({ alter: true });
-db.sequelize.sync({ force: true });
+// db.sequelize.sync({ force: true });
 
 let port = process.env.PORT || 6969;
 
@@ -35,5 +35,3 @@ app.listen(port, () => {
   //callback
   console.log("Backend Nodejs is running on the port : " + port);
 });
-
-// real
