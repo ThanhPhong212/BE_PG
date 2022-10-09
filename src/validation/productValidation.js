@@ -6,7 +6,7 @@ const product = yup.object({
     description: yup.string(),
     price: yup.number().min(1000).required(),
     amount: yup.number().min(1).required(),
-    categoryID: yup.string().required(),
+    category_id: yup.string().required(),
   }),
 });
 

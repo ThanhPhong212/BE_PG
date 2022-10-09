@@ -8,19 +8,14 @@ let router = express.Router();
 
 router.post(
   "/create_product",
-  authorize(["R1"]),
+  authorize(["admin"]),
   validate(productValidation.product),
   productController.createProduct
 );
 
-router.put(
-  "/:id",
-  authorize(["R1"]),
-  validate(productValidation.product),
-  productController.editProduct
-);
+router.put("/:id", authorize(["admin"]), validate(productValidation.product), productController.editProduct);
 
-router.delete("/:id", authorize(["R1"]), productController.deleteProduct);
+router.delete("/:id", authorize(["admin"]), productController.deleteProduct);
 
 router.get("/", productController.listProduct);
 

@@ -5,18 +5,13 @@ const validate = require("../validation/validate");
 const userValidation = require("../validation/UserValidation");
 let router = express.Router();
 
-router.post(
-  "/create_user",
-  // authorize(["R1"]),
-  validate(userValidation.user),
-  userController.createUser
-);
+router.post("/create_user", authorize(["admin"]), validate(userValidation.userRegister), userController.createUser);
 
-router.put("/:id", authorize(["R1"]), userController.editUser);
+router.put("/:id", authorize(["admin"]), userController.editUser);
 
-router.delete("/:id", authorize(["R1"]), userController.deleteUser);
+router.delete("/:id", authorize(["admin"]), userController.deleteUser);
 
-router.get("/:id", authorize(["R1", "R2"]), userController.getOneUser);
+router.get("/:id", userController.getOneUser);
 
 router.get("/", userController.getAllUser);
 

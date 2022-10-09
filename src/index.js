@@ -1,15 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const connectDB = require("./config/connectDB");
+require("dotenv").config();
 const db = require("./models");
 
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
 const productRoute = require("./routes/productRoute");
-const allcodeRoute = require("./routes/allcodeRoute");
-
-dotenv.config();
 
 const app = express();
 
@@ -19,7 +16,6 @@ app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/user", userRoute);
 app.use("/product", productRoute);
-app.use("/allcode", allcodeRoute);
 
 connectDB();
 

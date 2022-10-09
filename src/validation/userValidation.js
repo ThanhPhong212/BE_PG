@@ -1,11 +1,19 @@
 const yup = require("yup");
 
-const user = yup.object({
+const userRegister = yup.object({
   body: yup.object({
-    username: yup.string().min(4).max(10).required(),
+    firstName: yup.string().min(2).max(6).required(),
+    lastName: yup.string().min(2).max(6).required(),
     email: yup.string().email().required(),
     password: yup.string().min(6).required(),
   }),
 });
 
-module.exports = { user };
+const userLogin = yup.object({
+  body: yup.object({
+    email: yup.string().email().required(),
+    password: yup.string().min(6).required(),
+  }),
+});
+
+module.exports = { userRegister, userLogin };

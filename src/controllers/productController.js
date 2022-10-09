@@ -1,16 +1,9 @@
-const data = require("../models");
-const db = data.data;
+const db = require("../models");
 
 const productController = {
   createProduct: async (req, res) => {
     try {
-      const newProduct = await db.Product.create({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        amount: req.body.amount,
-        categoryID: req.body.categoryID,
-      });
+      const newProduct = await db.Product.create(req.body);
       await newProduct.save();
       res.status(200).json("Create successful products");
     } catch (error) {

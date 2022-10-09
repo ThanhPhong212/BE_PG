@@ -1,29 +1,34 @@
 const jwt = require("jsonwebtoken");
-const data = require("../models");
-const db = data.data;
+const { json } = require("sequelize");
+const db = require("../models");
 
-function authorize(roleID = []) {
-  if (typeof roleID === "string") {
-    roleID = [roleID];
+function authorize(role = []) {
+  if (typeof role === "string") {
+    role = [role];
   }
   return [
     (req, res, next) => {
       const bearerHeader = req.headers["authorization"];
+
       if (!bearerHeader) {
         return res.json("Please login to access the data");
       }
-      const bearer = bearerHeader.split(" ");
-      const bearerToken = bearer[1];
-
-      const verify = jwt.verify(bearerToken, process.env.KEY_JWT);
-      db.User.findByPk(verify.id).then((user) => {
-        if (!user) {
-          return res.json("User does not exist");
+      const bearer = bearerHeader.split(" ")[1];
+      jwt.verify(bearer, process.env.KEY_JWT, (err, user) => {
+        if (err) {
+          return res.status(403).json("Invalid token");
         }
-        if (roleID.length && !roleID.includes(user.roleID)) {
-          return res.json("User does not exist");
-        }
+        req.user = user;
+        db.User.findByPk(user.id).then((user) => {
+          if (!user) {
+            return res.status(404), json("User does not exist");
+          }
+          if (role.length && !role.includes(user.role)) {
+            return res.send("You cannot perform this action");
+          }
+        });
       });
+
       next();
     },
   ];
