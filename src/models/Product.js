@@ -1,13 +1,22 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model {}
+  class Product extends Model {
+    static associate(models) {
+      Product.belongsTo(models.Category, {
+        foreignKey: "category_id",
+      });
+    }
+  }
   Product.init(
     {
       name: {
         type: DataTypes.STRING,
-        unique: true,
         allowNull: false,
+        // get() {
+        //   const rawValue = this.getDataValue("name");
+        //   return rawValue ? rawValue.toUpperCase() : "null";
+        // },
       },
 
       description: {
@@ -22,11 +31,6 @@ module.exports = (sequelize, DataTypes) => {
 
       amount: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-
-      category_id: {
-        type: DataTypes.STRING,
         allowNull: false,
       },
     },

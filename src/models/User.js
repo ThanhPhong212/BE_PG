@@ -1,7 +1,11 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {}
+  class User extends Model {
+    // static associate(models) {
+    //   //   User.belongsTo(models.Allcode, {});
+    // }
+  }
   User.init(
     {
       firstName: {
@@ -12,6 +16,13 @@ module.exports = (sequelize, DataTypes) => {
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+
+      fullName: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return `${this.firstName} ${this.lastName}`;
+        },
       },
 
       email: {

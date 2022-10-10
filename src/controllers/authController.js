@@ -3,38 +3,27 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 
 const authController = {
-  generateToken: (user) => {
-    return jwt.sign(
-      {
-        id: user.dataValues.id,
-      },
-      process.env.KEY_JWT,
-      { expiresIn: "4h" }
-    );
-  },
-
   login: async (req, res) => {
     try {
-      const user = await db.User.findOne({
-        where: {
-          email: req.body.email,
-        },
-      });
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.json({ message: "Please enter all the details" });
+      }
+      const user = await db.User.findOne({ where: { email: email } });
       if (!user) {
-        res.status(404).json("User not found");
+        return res.json({ message: "Wrong email" });
       }
-      const vailPassword = await bcrypt.compare(req.body.password, user.password);
-      if (!vailPassword) {
-        res.status(404).json("Wrong password!");
+      const isMatch = await bcrypt.compare(password.toString(), user.password);
+      if (!isMatch) {
+        return res.json({ message: "Wrong  password" });
       }
-
-      if (user && vailPassword) {
-        const accessToken = authController.generateToken(user);
-
-        res.status(200).json({ user, accessToken });
-      }
+      const token = jwt.sign({ id: user.id }, process.env.KEY_JWT, {
+        expiresIn: "4h",
+      });
+      const fullName = user.fullName;
+      return res.status(200).json({ fullName, token });
     } catch (error) {
-      res.status(500).json(error);
+      return res.status(500).json(error);
     }
   },
 
