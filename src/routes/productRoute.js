@@ -13,12 +13,7 @@ router.post(
   productController.createProduct
 );
 
-router.put(
-  "/:id",
-  authorize(["admin"]),
-  validate(productValidation.product),
-  productController.editProduct
-);
+router.put("/:id", authorize(["admin"]), productController.editProduct);
 
 router.delete("/:id", authorize(["admin"]), productController.deleteProduct);
 

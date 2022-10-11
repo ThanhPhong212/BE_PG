@@ -6,7 +6,11 @@ const validate = require("../validation/validate");
 
 let router = express.Router();
 
-router.post("/create_category", authorize(["admin"]), categoryController.createCategory);
+router.post(
+  "/create_category",
+  authorize(["admin"]),
+  categoryController.createCategory
+);
 
 router.put("/:id", authorize(["admin"]), categoryController.editCategory);
 
